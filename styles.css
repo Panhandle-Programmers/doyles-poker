@@ -57,7 +57,12 @@
             color: black;
         }
 
-        .divider{
+        .content img{
+            height: 25%;
+            width: 25%;
+        }
+
+        .divider, .divider2 {
             text-align: center;
             background-color: gray;
             overflow: hidden;
