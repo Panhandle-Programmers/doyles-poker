@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>        
+    <h1>Poker</h1>
+</header>
+
+<!-- Navigation bar-->
+<nav>
+    <div class="home">
+            <a href="https://ryancpotts.github.io/about-me-1/">Home</a>
+    </div>
+
+    <div class="about">
+            <a href="https://en.wikipedia.org/wiki/Poker">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <section>
+        <p>DOYLE BRUNSON</p>
+        <img src="https://www.historyforsale.com/productimages/large/274151.jpg" alt="DOYLE BRUNSON">
+    </section>  
+</div>  
+
+<div class="divider">
+    <section>
+        <p><b>Know when to hold'em. Know when to fold'em.</b></p>
+    </section>
+</div>
+
+    <!-- Shuffle Button -->
+    <br>
+    <div class="shuffle">
+    <section>
+        <button onclick="dealCards()" id="shuffleButton">SHUFFLE UP AND DEAL!</button>
+    </section>
+    </div>
+
+    <!-- Container for displaying cards -->
+    <div class="userCards">
+    </div>
+
+    <!-- What do you do now? -->
+    <div class="prompt">
+    <section>
+        <b><p id="instruction">What do you do now? Choose from the below options.</p></b>
+        <br>
+        <br>
+    </div>
+
+    <div class="actionButtons">
+        <ul>
+            <li><a href="#" id="fold" onclick="handleFold()">FOLD</a></li>
+            <li><a href="#" id="check" onclick="handleCall()">CHECK</a></li>
+            <li><a href="#" id="call" onclick="handleCall()">CALL</a></li>
+            <li><a href="#" id="bet" onclick="handleCall()">BET</a></li>
+            <li><a href="#" id="raise" onclick="handleRaise()">RAISE</a></li>
+            <li><a href="#" id="all-in" onclick="handleAllIn()">ALL IN</a></li>
+        </ul>
+        <br>
+        <br>
+        <br>
+    </section>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>
