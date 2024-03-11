@@ -58,9 +58,8 @@ function dealCards() {
     userCards.appendChild(cardElement);
   }
 
-  // Calculate and display the hand name
-  const handName = getHandName(deck.slice(0, 5));
-  document.getElementById('handName').textContent = `Hand: ${handName}`;
+  // const handName = getHandName(deck.slice(0, 5));
+  // document.getElementById('handName').textContent = `Hand: ${handName}`;
 
   // Display the next 5 cards for Doyle
   for (let i = 5; i < 10; i++) {
@@ -77,56 +76,56 @@ function dealCards() {
   console.log('Doyle cards:', deck.slice(5, 10));
 }
 
-//hand names 
+// hand names 
 // Determine the poker hand name
-function getHandName(cards) {
-  const ranksCount = {};
-  const suitsCount = {};
+// function getHandName(cards) {
+//   const ranksCount = {};
+//   const suitsCount = {};
 
-  // Count the occurrences of each rank and suit
-  for (const card of cards) {
-    const rank = card.slice(0, -1);
-    const suit = card.slice(-1);
+//   // Count the occurrences of each rank and suit
+//   for (const card of cards) {
+//     const rank = card.slice(0, -1);
+//     const suit = card.slice(-1);
 
-    ranksCount[rank] = (ranksCount[rank] || 0) + 1;
-    suitsCount[suit] = (suitsCount[suit] || 0) + 1;
-  }
+//     ranksCount[rank] = (ranksCount[rank] || 0) + 1;
+//     suitsCount[suit] = (suitsCount[suit] || 0) + 1;
+//   }
 
-  const uniqueRanks = Object.keys(ranksCount);
-  const numUniqueRanks = uniqueRanks.length;
+//   const uniqueRanks = Object.keys(ranksCount);
+//   const numUniqueRanks = uniqueRanks.length;
 
-  // Check for flush
-  const isFlush = Object.values(suitsCount).some(count => count === 5);
+//   // Check for flush
+//   const isFlush = Object.values(suitsCount).some(count => count === 5);
 
-  // Check for straight
-  const sortedRanks = uniqueRanks.sort((a, b) => ranks.indexOf(a) - ranks.indexOf(b));
-  const isStraight = sortedRanks.length === 5 && ranks.indexOf(sortedRanks[4]) - ranks.indexOf(sortedRanks[0]) === 4;
+//   // Check for straight
+//   const sortedRanks = uniqueRanks.sort((a, b) => ranks.indexOf(a) - ranks.indexOf(b));
+//   const isStraight = sortedRanks.length === 5 && ranks.indexOf(sortedRanks[4]) - ranks.indexOf(sortedRanks[0]) === 4;
 
-  // Check for specific hand combinations
-  if (isFlush && isStraight) {
-    // Royal Flush check
-    if (sortedRanks[0] === '10' && sortedRanks[4] === 'A') {
-      return 'Royal Flush';
-    }
-    return 'Straight Flush';
-  } else if (Object.values(ranksCount).includes(4)) {
-    return 'Four-Of-A-Kind';
-  } else if (Object.values(ranksCount).includes(3) && Object.values(ranksCount).includes(2)) {
-    return 'Full House';
-  } else if (isFlush) {
-    return 'Flush';
-  } else if (isStraight) {
-    return 'Straight';
-  } else if (Object.values(ranksCount).includes(3)) {
-    return 'Three-Of-A-Kind';
-  } else if (numUniqueRanks === 2) {
-    return 'Two Pair';
-  } else if (numUniqueRanks === 3) {
-    return 'One Pair';
-  } else {
-    return 'High Card';
-  }
-}
+//   // Check for specific hand combinations
+//   if (isFlush && isStraight) {
+//     // Royal Flush check
+//     if (sortedRanks[0] === '10' && sortedRanks[4] === 'A') {
+//       return 'Royal Flush';
+//     }
+//     return 'Straight Flush';
+//   } else if (Object.values(ranksCount).includes(4)) {
+//     return 'Four-Of-A-Kind';
+//   } else if (Object.values(ranksCount).includes(3) && Object.values(ranksCount).includes(2)) {
+//     return 'Full House';
+//   } else if (isFlush) {
+//     return 'Flush';
+//   } else if (isStraight) {
+//     return 'Straight';
+//   } else if (Object.values(ranksCount).includes(3)) {
+//     return 'Three-Of-A-Kind';
+//   } else if (numUniqueRanks === 2) {
+//     return 'Two Pair';
+//   } else if (numUniqueRanks === 3) {
+//     return 'One Pair';
+//   } else {
+//     return 'High Card';
+//   }
+// }
 
 // Define the function to handle the "fold" action
 function handleFold() {
@@ -195,6 +194,5 @@ function shuffle(array) {
 window.addEventListener('DOMContentLoaded', function() {
   initializeDeck();
   dealCards();
-  getHandName();
 });
 
