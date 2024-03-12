@@ -87,6 +87,9 @@ function dealCards() {
 }
 
 // Define a mapping of ranks to numerical values
+
+//TODO:
+//This can also contain suit values
 const rankValues = {
   '2': 2,
   '3': 3,
@@ -126,66 +129,91 @@ function compareHands(userHandName, doyleHandName) {
 
   const userValue = handValues[userHandName];
   const doyleValue = handValues[doyleHandName];
+  const userHand = deck.slice(0, 5);
+  const doyleHand = deck.slice(5, 10);
+//TODO: Sort needs to produce this (below)
+  // Player 1: k, k, 10, 10, 4
+  //    Doyle: q, q, 9, 9, K
 
-  if (userValue !== doyleValue) {
-    console.log('userValue !== doyleValue', userValue !== doyleValue);
-    console.log('userValue', userValue);
-    console.log('doyleValue', doyleValue);
-    if (userValue > doyleValue) {
-      alert('Congratulations! You win!');
-    } else if (userValue < doyleValue) {
-      alert('Doyle wins! Better luck next time!');
-    }
-  } else {
-    // If both hands have the same value, compare individual card values
-    const userHand = deck.slice(0, 5);
+  let userHandSorted = userHand.slice().sort((a, b) => {
+    return getCardValue(b) - getCardValue(a);
+  });
+  let doyleHandSorted = doyleHand.slice().sort((a, b) => {
+    return getCardValue(b) - getCardValue(a);
+  });
 
-    const doyleHand = deck.slice(5, 10);
+//TODO: After we properly sort, do a loop that iterates over each card, subtracting the player card at index from Doyle's card at index. Anytime there is a non-zero result, we are done. This loop only matters when the hands are NOT the same rank but it will break any ties.
+
+  console.log('user', userValue, userHandSorted);
+  console.log('doyle', doyleValue, doyleHandSorted);
 
 
-
-    let userMaxCard = Math.max(...userHand.map(card => getCardValue(card)));
-    let doyleMaxCard = Math.max(...doyleHand.map(card => getCardValue(card)));
-    console.log('userMaxCard', userMaxCard);
-    console.log('doyleMaxCard', doyleMaxCard);
-
-    if (userMaxCard > doyleMaxCard) {
-      alert('Congratulations! You win!');
-    } else if (userMaxCard < doyleMaxCard) {
-      console.log('Doyle Wins Situation');
-      console.log('userMaxCard', userMaxCard);
-      console.log('doyleMaxCard', doyleMaxCard);
-      alert('Doyle wins! Better luck next time!');
-    }
-    else {
-      // If both have the same high card, compare second highest, third highest, etc.
-      let userHandSorted = userHand.slice().sort((a, b) => getCardValue(b) - getCardValue(a));
-      let doyleHandSorted = doyleHand.slice().sort((a, b) => getCardValue(b) - getCardValue(a));
-
-      let userRankIndex = 0;
-      let doyleRankIndex = 0;
-      while (userRankIndex < userHandSorted.length && doyleRankIndex < doyleHandSorted.length) {
-        let userCardValue = getCardValue(userHandSorted[userRankIndex]);
-        let doyleCardValue = getCardValue(doyleHandSorted[doyleRankIndex]);
-
-        if (userCardValue !== doyleCardValue) {
-          if (userCardValue > doyleCardValue) {
-            alert('Congratulations! You win!');
-          } else {
-            alert('Doyle wins! Better luck next time!');
-          }
-          return; // Comparison done, exit the function
-        }
-
-        // If cards are equal, move to next highest card
-        userRankIndex++;
-        doyleRankIndex++;
-      }
-
-      alert("It's a tie! Both players have the same hand.");
-
-    }
+  if (userValue > doyleValue) {
+    console.log('Congratulations! You win!');
+  } else if (userValue < doyleValue) {
+    console.log('Doyle wins! Better luck next time!');
   }
+
+
+  // if (userValue !== doyleValue) {
+
+  //   if (userValue > doyleValue) {
+  //     console.log('Congratulations! You win!');
+  //   } else if (userValue < doyleValue) {
+  //     console.log('Doyle wins! Better luck next time!');
+  //   }
+  // } else {
+  //   // If both hands have the same value, compare individual card values
+  //   const userHand = deck.slice(0, 5);
+
+  //   const doyleHand = deck.slice(5, 10);
+
+
+
+  //   let userMaxCard = Math.max(...userHand.map(card => getCardValue(card)));
+  //   let doyleMaxCard = Math.max(...doyleHand.map(card => getCardValue(card)));
+
+  //   // console.log('userMaxCard', userMaxCard);
+  //   // console.log('doyleMaxCard', doyleMaxCard);
+
+  //   if (userMaxCard > doyleMaxCard) {
+  //     alert('Congratulations! You win!');
+  //   } else if (userMaxCard < doyleMaxCard) {
+  //     // console.log('Doyle Wins Situation');
+  //     // console.log('userMaxCard', userMaxCard);
+  //     // console.log('doyleMaxCard', doyleMaxCard);
+  //     alert('Doyle wins! Better luck next time!');
+  //   }
+  //   else {
+  //     // If both have the same high card, compare second highest, third highest, etc.
+  //     let userHandSorted = userHand.slice().sort((a, b) => getCardValue(b) - getCardValue(a));
+  //     let doyleHandSorted = doyleHand.slice().sort((a, b) => getCardValue(b) - getCardValue(a));
+
+  //     let userRankIndex = 0;
+  //     let doyleRankIndex = 0;
+  //     while (userRankIndex < userHandSorted.length && doyleRankIndex < doyleHandSorted.length) {
+  //       let userCardValue = getCardValue(userHandSorted[userRankIndex]);
+  //       let doyleCardValue = getCardValue(doyleHandSorted[doyleRankIndex]);
+  //       //Player: Ace, 10, 5, 4, 2, 
+  //       //Doyle: Ace, 9, 8, 7, 6,
+  //       if (userCardValue !== doyleCardValue) {
+  //         if (userCardValue > doyleCardValue) {
+  //           console.log('Congratulations! You win!');
+  //         } else {
+  //           console.log('Doyle wins! Better luck next time!');
+  //         }
+  //         return; // Comparison done, exit the function
+  //       }
+
+  //       // If cards are equal, move to next highest card
+  //       userRankIndex++;
+  //       doyleRankIndex++;
+  //     }
+
+  //     // alert("It's a tie! Both players have the same hand.");
+
+  //   }
+  // }
 }
 
 // Function to get the numerical value of a card
