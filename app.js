@@ -43,6 +43,7 @@ function dealCards() {
   //doyle's cards
   let doyleCardsElement = document.querySelector('.doyleCards');
   doyleCardsElement.innerHTML = '';
+  document.getElementById('doyleHandName').textContent = '';
 
 
 
@@ -50,34 +51,104 @@ function dealCards() {
   shuffle(deck);
 
   // Display the first 5 cards for the user
+  let userHand = deck.slice(0, 5);
   for (let i = 0; i < 5; i++) {
     let cardElement = document.createElement('div');
-    cardElement.textContent = deck[i];
+    cardElement.textContent = userHand[i];
     cardElement.classList.add('card');
     userCards.appendChild(cardElement);
   }
 
-  const handName = getHandName(deck.slice(0, 5));
-  document.getElementById('handName').textContent = `Hand: ${handName}`;  
+  // Determine and display the user's poker hand
+  const userHandName = getHandName(userHand);
+  document.getElementById('handName').textContent = `Hand: ${userHandName}`;  
 
   // Display the next 5 cards for Doyle
+  let doyleHand = deck.slice(5, 10);
   for (let i = 5; i < 10; i++) {
     let doyleCardElement = document.createElement('div');
-    doyleCardElement.textContent = deck[i];
+    doyleCardElement.textContent = doyleHand[i - 5];
     doyleCardElement.classList.add('card');
     doyleCardsElement.appendChild(doyleCardElement);
   }
 
   // Determine and display Doyle's poker hand here
-  const doyleHandName = getDoyleHandName(deck.slice(5, 10));
+  const doyleHandName = getDoyleHandName(doyleHand);
   document.getElementById('doyleHandName').textContent = `Doyle's Hand: ${doyleHandName}`;
 
+  // Compare the hands and display the result
+  compareHands(userHandName, doyleHandName);
+
   // Log the dealt cards to console
-  console.log('User cards:', deck.slice(0, 5));
-  console.log('Hand name:', handName);
-  //doyle's command
-  console.log('Doyle cards:', deck.slice(5, 10));
+  console.log('User cards:', userHand);
+  console.log('Hand name:', userHandName);
+  console.log('Doyle cards:', doyleHand);
   console.log('Doyle Hand', doyleHandName);
+}
+
+function compareHands(userHandName, doyleHandName) {
+  const handValues = {
+    'Royal Flush': 9,
+    'Straight Flush': 8,
+    'Four-Of-A-Kind': 7,
+    'Full House': 6,
+    'Flush': 5,
+    'Straight': 4,
+    'Three-Of-A-Kind': 3,
+    'Two Pair': 2,
+    'One Pair': 1,
+    'High Card': 0
+  };
+
+  const userValue = handValues[userHandName];
+  const doyleValue = handValues[doyleHandName];
+
+  if (userValue !== doyleValue) {
+    if (userValue > doyleValue) {
+      alert('Congratulations! You win!');
+    } else {
+      alert('Doyle wins! Better luck next time!');
+    }
+  } else {
+    // If both hands have the same value, compare individual card values
+    const userHand = deck.slice(0, 5);
+    const doyleHand = deck.slice(5, 10);
+
+
+    let userMaxCard = Math.max(...userHand.map(card => getCardValue(card)));
+    let doyleMaxCard = Math.max(...doyleHand.map(card => getCardValue(card)));
+
+    if (userMaxCard > doyleMaxCard) {
+      alert('Congratulations! You win!');
+    } else if (userMaxCard < doyleMaxCard) {
+      alert('Doyle wins! Better luck next time!');
+    } else {
+      alert('It\'s a tie! Both players have the same high card.');
+    }
+  }
+}
+
+// Function to get the numerical value of a card
+function getCardValue(card) {
+  const rank = card.slice(0, -1);
+  const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  return ranks.indexOf(rank) + 2;
+}
+
+// Function to get the highest pair or high card from the hand
+function getPairOrHighCard(cards) {
+  const ranksCount = {};
+  for (const card of cards) {
+    const rank = card.slice(0, -1);
+    ranksCount[rank] = (ranksCount[rank] || 0) + 1;
+  }
+  const pairs = Object.keys(ranksCount).filter(rank => ranksCount[rank] === 2);
+  if (pairs.length > 0) {
+    return pairs;
+  } else {
+    // If no pairs, return the hand sorted by rank
+    return cards.sort((a, b) => getCardValue(b) - getCardValue(a));
+  }
 }
 
 // Determine the poker hand name
