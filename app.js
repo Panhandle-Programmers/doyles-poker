@@ -122,9 +122,9 @@ function getHandName(cards) {
     return 'Straight';
   } else if (Object.values(ranksCount).includes(3)) {
     return 'Three-Of-A-Kind';
-  } else if (numUniqueRanks === 2) {
+  } else if (Object.values(ranksCount).filter(count => count === 2).length === 2) {
     return 'Two Pair';
-  } else if (numUniqueRanks === 3) {
+  } else if (Object.values(ranksCount).filter(count => count === 2).length === 1) {
     return 'One Pair';
   } else {
     return 'High Card';
@@ -172,9 +172,9 @@ function getDoyleHandName(cards){
     return 'Straight';
   } else if (Object.values(ranksCount).includes(3)) {
     return 'Three-Of-A-Kind';
-  } else if (numUniqueRanks === 2) {
+  } else if (Object.values(ranksCount).filter(count => count === 2).length === 2) {
     return 'Two Pair';
-  } else if (numUniqueRanks === 3) {
+  } else if (Object.values(ranksCount).filter(count => count === 2).length === 1) {
     return 'One Pair';
   } else {
     return 'High Card';
