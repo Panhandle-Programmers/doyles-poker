@@ -32,6 +32,18 @@ function initializeDeck() {
     }
   }
 }
+//new
+initializeDeck();
+
+
+// new
+// Initialize the deck when the page loads
+window.addEventListener('DOMContentLoaded', function () {
+  initializeDeck();
+  dealCards();
+});
+
+
 
 // Deal 5 random cards from the deck
 function dealCards() {
@@ -45,13 +57,13 @@ function dealCards() {
   doyleCardsElement.innerHTML = '';
   document.getElementById('doyleHandName').textContent = '';
 
-
-
   // Shuffle the deck
   shuffle(deck);
 
   // Display the first 5 cards for the user
   let userHand = deck.slice(0, 5);
+  //new
+  userHand.sort((a, b) => getCardValue(b) - getCardValue(a)); // Sort user's hand
   for (let i = 0; i < 5; i++) {
     let cardElement = document.createElement('div');
     cardElement.textContent = userHand[i];
@@ -65,6 +77,8 @@ function dealCards() {
 
   // Display the next 5 cards for Doyle
   let doyleHand = deck.slice(5, 10);
+  //new
+  doyleHand.sort((a, b) => getCardValue(b) - getCardValue(a)); // Sort Doyle's hand
   for (let i = 5; i < 10; i++) {
     let doyleCardElement = document.createElement('div');
     doyleCardElement.textContent = doyleHand[i - 5];
@@ -131,9 +145,11 @@ function compareHands(userHandName, doyleHandName) {
   const doyleValue = handValues[doyleHandName];
   const userHand = deck.slice(0, 5);
   const doyleHand = deck.slice(5, 10);
-//TODO: Sort needs to produce this (below)
+  //TODO: Sort needs to produce this (below)
   // Player 1: k, k, 10, 10, 4
   //    Doyle: q, q, 9, 9, K
+  //How do i sort a poker hand by rank and value?
+  //array.sort????
 
   let userHandSorted = userHand.slice().sort((a, b) => {
     return getCardValue(b) - getCardValue(a);
@@ -142,7 +158,7 @@ function compareHands(userHandName, doyleHandName) {
     return getCardValue(b) - getCardValue(a);
   });
 
-//TODO: After we properly sort, do a loop that iterates over each card, subtracting the player card at index from Doyle's card at index. Anytime there is a non-zero result, we are done. This loop only matters when the hands are NOT the same rank but it will break any ties.
+  //TODO: After we properly sort, do a loop that iterates over each card, subtracting the player card at index from Doyle's card at index. Anytime there is a non-zero result, we are done. This loop only matters when the hands are NOT the same rank but it will break any ties.
 
   console.log('user', userValue, userHandSorted);
   console.log('doyle', doyleValue, doyleHandSorted);
@@ -413,8 +429,8 @@ function shuffle(array) {
   return array;
 }
 
-// Initialize the deck when the page loads
-window.addEventListener('DOMContentLoaded', function () {
-  initializeDeck();
-  dealCards();
-});
+// // Initialize the deck when the page loads
+// window.addEventListener('DOMContentLoaded', function () {
+//   initializeDeck();
+//   dealCards();
+// });
