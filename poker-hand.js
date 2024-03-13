@@ -109,8 +109,4 @@ function PokerHand() {
   return whichHand();
 }
 
-// const hands = ['Royal flush', 'Straight flush', 'Four of a kind', 'Full house',
-//     'Flush', 'Straight', 'Three of a kind', 'Two pairs', 'Pair', 'High card']
-//     //compare ranks of hands and return results
-
 PokerHand();
