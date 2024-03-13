@@ -1,102 +1,101 @@
+#instruction {
+    font-size: 30px;
+    /* Adjust the font size as needed */
+}
 
-        #instruction {
-            font-size: 30px; /* Adjust the font size as needed */
-        }
-        .card {
-            display: inline-block;
-            padding: 10px;
-            border: 2px solid black;
-            border-radius: 10px;
-            margin: 5px;
-            font-size: 80px; color: red;
-            width: 100px;
-            height: 150px;
-            text-align: center;
-        }
+.card{
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 5px;
+    font-size: 80px;
+    color: red;
+    width: 100px;
+    height: 150px;
+    text-align: center;
+}
 
-        body {
-            background-color: whitesmoke; color: white;
-        }
 
-        header {
-            background-color: black;
-            text-align: center;
-        }
+body {
+    background-color: whitesmoke;
+    color: white;
+}
 
-        nav {
-            background-color: gray; 
-            overflow: hidden; 
-            padding: 0; 
-            margin: 0; 
-            list-style-type: none;
-        }
+header {
+    background-color: black;
+    font-size: 30px;
+    text-align: center;
+}
 
-        .home {
-            float: left; 
-            margin-right: 20px;
-            background-color: gray; 
-            overflow: hidden; 
-            padding: 0; 
-            margin: 0; 
-            list-style-type: none;
-        }
+nav {
+    background-color: gray;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 80px;
+}
 
-        .about{
-            float: auto; 
-            margin-right: 20px;
-            background-color: gray; 
-            overflow: hidden; 
-            padding: 20px; 
-            margin: 0; 
-            list-style-type: none;
+.home, .about {
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 25px;
+    color: whitesmoke;
 
-        }
+}
 
-        .content {
-            text-align: center; 
-            color: black;
-        }
 
-        .content img{
-            height: 25%;
-            width: 25%;
-        }
+.content {
+    text-align: center;
+    color: black;
+}
 
-        .divider, .divider2 {
-            text-align: center;
-            background-color: gray;
-            overflow: hidden;
-        }
+.content img {
+    height: 25%;
+    width: 25%;
+}
 
-        .shuffle {
-            background-color: green; 
-            color: white;
-            font-size: 24px;
-            padding: 10px 20px;
-            text-align: center;
-        }
+.divider,
+.divider2 {
+    text-align: center;
+    background-color: gray;
+    overflow: hidden;
+}
 
-        .userCards{
-            text-align: center;
-            margin-top: 20px;
-        }
+.shuffle {
+    background-color: green;
+    color: white;
+    font-size: 24px;
+    padding: 10px 20px;
+    text-align: center;
+}
 
-        .prompt{
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            color: black;
-        }
+.userCards {
+    text-align: center;
+    margin-top: 20px;
+}
 
-        .actionButtons{
-            list-style-type: none;
-            padding: 0;
-            display: inline-block;
-            justify-content: center;
-            width: 100%;
-            text-align: center; 
-            flex: 1;
-            font-size: 22px; 
-            font-weight: bold;
-        }
+.prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+}
+
+.actionButtons {
+    padding: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.actionButtons li {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: bold;
+    margin-right: 20px;
+}
 
