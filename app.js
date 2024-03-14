@@ -107,43 +107,44 @@ function compareHands(userHandName, doyleHandName, sortedPlayerHand, sortedDoyle
     console.log('Congratulations! You win!');
   } else if (userValue < doyleValue) {
     console.log('Doyle wins! Better luck next time!');
-  }
+  } if (userValue === doyleValue) {
+    // Assuming 'playerRanks' and 'doyleRanks' are arrays of integers representing card ranks in sorted order
+    let winner = 'It\'s a tie!'; // Default message
 
+    // Loop through the cards to find the first non-tie card
+    for (let i = 0; i < sortedPlayerHand.length; i++) {
+      let userCardValue = getCardValue(sortedPlayerHand[i]);
+      console.log('user', userCardValue);
+      let doyleCardValue = getCardValue(sortedDoyleHand[i]);
+      console.log('dude', doyleCardValue);
 
-  if (userValue === doyleValue) {
-    // It's a tie, iterate to the next highest card
-    let userNextValue = userValue + 1;
-    let doyleNextValue = doyleValue + 1;
-
-    while (userNextValue === doyleNextValue) {
-      userNextValue++;
-      doyleNextValue++;
-      if (userNextValue > 13 || doyleNextValue > 13) {
+      if (userCardValue > doyleCardValue) {
+        winner = 'Congratulations! You win!';
+        break;
+      } else if (userCardValue < doyleCardValue) {
+        winner = 'Doyle wins! Better luck next time!';
         break;
       }
     }
 
-    if (userNextValue > doyleNextValue) {
-      console.log('You win!');
-    } else {
-      console.log('Doyle wins!');
-    }
+    console.log(winner);
   }
-
-  // if (userValue === doyleValue) {
-  //   console.log('It\'s a tie!');
-
-  // }
-  // if (userValue === doyleValue) {
-  //   // It's a tie, introduce a random factor
-  //   let randomNum = Math.random();
-  //   if (randomNum < 0.5) {
-  //     console.log('You win!');
-  //   } else {
-  //     console.log('Doyle wins!');
-  //   }
-  // }
 }
+
+// if (sortedPlayerHand === sortedDoyleHand) {
+//   // It's a tie, iterate to the next highest card
+//   let userNextValue = playerRanks + 1;
+//   let doyleNextValue = doyleRanks + 1;
+
+//   while (userNextValue === doyleNextValue) {
+//     userNextValue++;
+//     doyleNextValue++;
+//     if (userNextValue > 13 || doyleNextValue > 13) {
+//       break;
+//     }
+//   }
+// }
+
 
 const rankOrder = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
