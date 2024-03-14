@@ -221,9 +221,9 @@ function compareHands(userHandName, doyleHandName, sortedPlayerHand, sortedDoyle
   const doyleValue = handValues[doyleHandName];
 
   if (userValue > doyleValue) {
-    alert('Congratulations! You win!');
+    document.getElementById('winnerMessage').innerHTML = 'Congratulations! You win!';
   } else if (userValue < doyleValue) {
-    alert('Doyle wins! Better luck next time!');
+    document.getElementById('winnerMessage').innerHTML = 'Doyle wins! Better luck next time!';
   } if (userValue === doyleValue) {
     // Assuming 'playerRanks' and 'doyleRanks' are arrays of integers representing card ranks in sorted order
     let winner = 'It\'s a tie!'; // Default message
@@ -244,7 +244,7 @@ function compareHands(userHandName, doyleHandName, sortedPlayerHand, sortedDoyle
       }
     }
 
-    alert(winner);
+    document.getElementById('winnerMessage').innerHTML = winner;
   }
 }
 
