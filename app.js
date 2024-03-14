@@ -4,20 +4,6 @@ let name = prompt('What is your name?');
 // Log the name to the console
 console.log('Hello, ' + name + '!');
 
-// Show a conditional prompt when the webpage loads
-window.addEventListener('DOMContentLoaded', function () {
-  // Ask the user if they've ever played poker
-  let response = confirm('Have you ever played poker, ' + name + '?');
-
-  // Check the user's response
-  if (response) {
-    alert('Great! Enjoy the game, ' + name + '!');
-  } else {
-    alert('No worries, ' + name + '! Poker is fun to learn.');
-  }
-});
-
-
 // Define a global array to represent the deck of cards
 let deck = [];
 
@@ -32,18 +18,13 @@ function initializeDeck() {
     }
   }
 }
-//new
-initializeDeck();
+// initializeDeck();
 
-
-// new
 // Initialize the deck when the page loads
 window.addEventListener('DOMContentLoaded', function () {
   initializeDeck();
   dealCards();
 });
-
-
 
 // Deal 5 random cards from the deck
 function dealCards() {
@@ -61,39 +42,34 @@ function dealCards() {
   shuffle(deck);
 
   // Display the first 5 cards for the user
-  let userHand = deck.slice(0, 5);
-  //new
-  userHand.sort((a, b) => getCardValue(b) - getCardValue(a)); // Sort user's hand
-  userHand.sort((a, b) => getHandValue(b) - getHandValue(a)); // sort users hand name
-  for (let i = 0; i < 5; i++) {
+  let userHand = deck.slice(0, 5).sort((a, b) => getCardValue(b) - getCardValue(a));
+  const [userHandName, sortedPlayerHand, playerRanks] = getHandName(userHand);
+  for (let i = 0; i < sortedPlayerHand.length; i++) {
     let cardElement = document.createElement('div');
-    cardElement.textContent = userHand[i];
+    cardElement.textContent = sortedPlayerHand[i];
     cardElement.classList.add('card');
     userCards.appendChild(cardElement);
   }
 
   // Determine and display the user's poker hand
-  const userHandName = getHandName(userHand);
+  // const userHandName = getHandName(userHand);
   document.getElementById('handName').textContent = `Hand: ${userHandName}`;
 
   // Display the next 5 cards for Doyle
-  let doyleHand = deck.slice(5, 10);
-  //new
-  doyleHand.sort((a, b) => getCardValue(b) - getCardValue(a)); // Sort Doyle's hand
-  doyleHand.sort((a, b) => getHandValue(b) - getHandValue(a)); //sort doyle's hand name
-  for (let i = 5; i < 10; i++) {
+  let doyleHand = deck.slice(5, 10).sort((a, b) => getCardValue(b) - getCardValue(a));
+  const [doyleHandName, sortedDoyleHand, doyleRanks] = getDoyleHandName(doyleHand);
+  for (let i = 0; i < sortedDoyleHand.length; i++) {
     let doyleCardElement = document.createElement('div');
-    doyleCardElement.textContent = doyleHand[i - 5];
+    doyleCardElement.textContent = sortedDoyleHand[i];
     doyleCardElement.classList.add('card');
     doyleCardsElement.appendChild(doyleCardElement);
   }
 
   // Determine and display Doyle's poker hand here
-  const doyleHandName = getDoyleHandName(doyleHand);
   document.getElementById('doyleHandName').textContent = `Doyle's Hand: ${doyleHandName}`;
 
   // Compare the hands and display the result
-  compareHands(userHandName, doyleHandName);
+  compareHands(userHandName, doyleHandName, sortedPlayerHand, sortedDoyleHand, playerRanks, doyleRanks);
 
   // Log the dealt cards to console
   console.log('User cards:', userHand);
@@ -102,32 +78,15 @@ function dealCards() {
   console.log('Doyle Hand', doyleHandName);
 }
 
-// Define a mapping of ranks to numerical values
-
-//TODO:
-//This can also contain suit values
-const rankValues = [
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  'J',
-  'Q',
-  'K',
-  'A',
-];
 // Function to get the numerical value of a card
-// function getCardValue(card) {
-//   const rank = card.slice(0, -1);
-//   return rankValues[rank];
-// }
+function getCardValue(card) {
+  const rank = card.slice(0, -1);
+  const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  return ranks.indexOf(rank) + 2;
+}
 
-function compareHands(userHandName, doyleHandName) {
+// Compare hands and determine the winner
+function compareHands(userHandName, doyleHandName, sortedPlayerHand, sortedDoyleHand, playerRanks, doyleRanks) {
   const handValues = {
     'Royal Flush': 1000,
     'Straight Flush': 900,
@@ -139,261 +98,179 @@ function compareHands(userHandName, doyleHandName) {
     'Two Pair': 300,
     'One Pair': 200,
     'High Card': 100
-
   };
-  // console.log('Hand Values', handValues);
 
   const userValue = handValues[userHandName];
   const doyleValue = handValues[doyleHandName];
-  const userHand = deck.slice(0, 5);
-  const doyleHand = deck.slice(5, 10);
-  //TODO: Sort needs to produce this (below)
-  // Player 1: k, k, 10, 10, 4
-  //    Doyle: q, q, 9, 9, K
-  //How do i sort a poker hand by rank and value?
-  //array.sort????
 
-  let userHandSorted = userHand.slice().sort((a, b) => {
-    return getCardValue(b) - getCardValue(a);
-  });
-  let doyleHandSorted = doyleHand.slice().sort((a, b) => {
-    return getCardValue(b) - getCardValue(a);
-  });
-
-  //TODO: After we properly sort, do a loop that iterates over each card, subtracting the player card at index from Doyle's card at index. Anytime there is a non-zero result, we are done. This loop only matters when the hands are NOT the same rank but it will break any ties.
-
-  console.log('user', userValue, userHandSorted);
-  console.log('doyle', doyleValue, doyleHandSorted);
-
-  console.log(typeof userValue);
   if (userValue > doyleValue) {
     console.log('Congratulations! You win!');
   } else if (userValue < doyleValue) {
     console.log('Doyle wins! Better luck next time!');
   }
 
+
   if (userValue === doyleValue) {
-    for (let i = 0; i < userHandSorted.length; i++) {
-      let playerCard = userHandSorted[i];
-      let doyleCard = doyleHandSorted[i];
-      console.log(playerCard);
-      console.log(doyleCard);
-      let score = rankValues.indexOf(playerCard) - rankValues.indexOf(doyleCard);
-      if(score !== 0){
-        playerCard.score+=score;
+    // It's a tie, iterate to the next highest card
+    let userNextValue = userValue + 1;
+    let doyleNextValue = doyleValue + 1;
+
+    while (userNextValue === doyleNextValue) {
+      userNextValue++;
+      doyleNextValue++;
+      if (userNextValue > 13 || doyleNextValue > 13) {
+        break;
       }
     }
-    console.log('hello');
+
+    if (userNextValue > doyleNextValue) {
+      console.log('You win!');
+    } else {
+      console.log('Doyle wins!');
+    }
   }
-  console.log(userValue > doyleValue?"Player Wins":"Doyle Wins");
+
+  // if (userValue === doyleValue) {
+  //   console.log('It\'s a tie!');
+
+  // }
+  // if (userValue === doyleValue) {
+  //   // It's a tie, introduce a random factor
+  //   let randomNum = Math.random();
+  //   if (randomNum < 0.5) {
+  //     console.log('You win!');
+  //   } else {
+  //     console.log('Doyle wins!');
+  //   }
+  // }
 }
 
-// Function to get the numerical value of a card
-function getCardValue(card) {
-  const rank = card.slice(0, -1);
-  // console.log('Rank', rank);
-  const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-  // console.log('Ranks', ranks);
-  // console.log('Ranks of Index', ranks.indexOf(rank) + 2);
-  return ranks.indexOf(rank) + 2;
-}
-
-function getHandValue(handName) {
-  const handValues = {
-    'Royal Flush': 1000,
-    'Straight Flush': 900,
-    'Four-Of-A-Kind': 800,
-    'Full House': 700,
-    'Flush': 600,
-    'Straight': 500,
-    'Three-Of-A-Kind': 400,
-    'Two Pair': 300,
-    'One Pair': 200,
-    'High Card': 100
-  };
-
-  return handValues[handName] || 0; // Return the value for the given hand name, or 0 if not found
-}
-
-// Function to get the highest pair or high card from the hand
-function getPairOrHighCard(cards) {
-  const ranksCount = {};
-  for (const card of cards) {
-    const rank = card.slice(0, -1);
-    ranksCount[rank] = (ranksCount[rank] || 0) + 1;
-  }
-  const pairs = Object.keys(ranksCount).filter(rank => ranksCount[rank] === 2);
-  if (pairs.length > 0) {
-    return pairs;
-  } else {
-    // If no pairs, return the hand sorted by rank
-    return cards.sort((a, b) => getCardValue(b) - getCardValue(a));
-  }
-}
+const rankOrder = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
 // Determine the poker hand name
 function getHandName(cards) {
-  const ranksCount = {};
-  const suitsCount = {};
-  const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+  //Sort the hand using the new sorting function
+  const [sortedHand, rankCount] = sortHand(cards);
 
-  // Count the occurrences of each rank and suit
-  for (const card of cards) {
-    const rank = card.slice(0, -1);
-    console.log('rank', rank);
-    const suit = card.slice(-1);
-    console.log('suit', suit);
-
-    ranksCount[rank] = (ranksCount[rank] || 0) + 1;
-    suitsCount[suit] = (suitsCount[suit] || 0) + 1;
-  }
-  console.log('ranksCount', ranksCount);
-  console.log('suitsCount', suitsCount);
-
-
-  const uniqueRanks = Object.keys(ranksCount);
-  const numUniqueRanks = uniqueRanks.length;
+  // Extract ranks and suits from the sorted hand
+  const ranks = sortedHand.map(card => card[0]);
+  const suits = sortedHand.map(card => card[1]);
 
   // Check for flush
-  const isFlush = Object.values(suitsCount).some(count => count === 5);
+  const isFlush = suits.every(suit => suit === suits[0]);
+
 
   // Check for straight
-  const sortedRanks = uniqueRanks.sort((a, b) => ranks.indexOf(a) - ranks.indexOf(b));
-  const isStraight = sortedRanks.length === 5 && ranks.indexOf(sortedRanks[4]) - ranks.indexOf(sortedRanks[0]) === 4;
+  const isStraight = ranks.every((rank, index) => rankOrder.indexOf(rank) === index + rankOrder.indexOf(ranks[0]));
+
+  let name = 'High Card';
 
   // Check for specific hand combinations
   if (isFlush && isStraight) {
     // Royal Flush check
-    if (sortedRanks[0] === '10' && sortedRanks[4] === 'A') {
-      return 'Royal Flush';
+    if (ranks[0] === '10' && ranks[4] === 'A') {
+      name = 'Royal Flush';
     }
-    return 'Straight Flush';
-  } else if (Object.values(ranksCount).includes(4)) {
-    return 'Four-Of-A-Kind';
-  } else if (Object.values(ranksCount).includes(3) && Object.values(ranksCount).includes(2)) {
-    return 'Full House';
+    name = 'Straight Flush';
+  } else if (Object.values(rankCount).includes(4)) {
+    name = 'Four-Of-A-Kind';
+  } else if (Object.values(rankCount).includes(3) && Object.values(rankCount).includes(2)) {
+    name = 'Full House';
   } else if (isFlush) {
-    return 'Flush';
+    name = 'Flush';
   } else if (isStraight) {
-    return 'Straight';
-  } else if (Object.values(ranksCount).includes(3)) {
-    return 'Three-Of-A-Kind';
-  } else if (Object.values(ranksCount).filter(count => count === 2).length === 2) {
-    return 'Two Pair';
-  } else if (Object.values(ranksCount).filter(count => count === 2).length === 1) {
-    return 'One Pair';
-  } else {
-    return 'High Card';
+    name = 'Straight';
+  } else if (Object.values(rankCount).includes(3)) {
+    name = 'Three-Of-A-Kind';
+  } else if (Object.values(rankCount).filter(count => count === 2).length === 2) {
+    name = 'Two Pair';
+  } else if (Object.values(rankCount).filter(count => count === 2).length === 1) {
+    name = 'One Pair';
   }
+  return [name, sortedHand, rankCount];
 }
 
+// Function to sort the hand
+function sortHand(hand) {
+  // Count the occurrences of each rank
+  const rankCount = {};
+  for (const card of hand) {
+    const rank = card.slice(0, -1);
+    if (rankCount[rank]) {
+      rankCount[rank]++;
+    } else {
+      rankCount[rank] = 1;
+    }
+  }
+
+  // Sort the cards based on rank count and rank value
+  hand.sort((a, b) => {
+    const countDiff = rankCount[b.slice(0, -1)] - rankCount[a.slice(0, -1)];
+    if (countDiff !== 0) {
+      return countDiff; // Sort by rank count first
+    } else {
+      // If rank counts are the same, sort by rank value
+      return rankOrder.indexOf(b.slice(0, -1)) - rankOrder.indexOf(a.slice(0, -1));
+    }
+  });
+
+  return [hand, rankCount];
+}
+
+
+// Function to determine Doyle's hand name
 function getDoyleHandName(cards) {
-  const ranksCount = {};
-  const suitsCount = {};
-  const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
-  // Count the occurrences of each rank and suit
-  for (const card of cards) {
-    const rank = card.slice(0, -1);
-    const suit = card.slice(-1);
+  // Sort the hand using the new sorting function
+  const [sortedHand, rankCount] = sortHand(cards);
 
-    ranksCount[rank] = (ranksCount[rank] || 0) + 1;
-    suitsCount[suit] = (suitsCount[suit] || 0) + 1;
-  }
-
-  const uniqueRanks = Object.keys(ranksCount);
-  const numUniqueRanks = uniqueRanks.length;
+  // Extract ranks and suits from the sorted hand
+  const ranks = sortedHand.map(card => card[0]);
+  const suits = sortedHand.map(card => card[1]);
 
   // Check for flush
-  const isFlush = Object.values(suitsCount).some(count => count === 5);
+  const isFlush = suits.every(suit => suit === suits[0]);
 
   // Check for straight
-  const sortedRanks = uniqueRanks.sort((a, b) => ranks.indexOf(a) - ranks.indexOf(b));
-  const isStraight = sortedRanks.length === 5 && ranks.indexOf(sortedRanks[4]) - ranks.indexOf(sortedRanks[0]) === 4;
+  const isStraight = ranks.every((rank, index) => rankOrder.indexOf(rank) === index + rankOrder.indexOf(ranks[0]));
+
+  // Check for specific hand combinations
+  let name = 'High Card';
 
   // Check for specific hand combinations
   if (isFlush && isStraight) {
     // Royal Flush check
-    if (sortedRanks[0] === '10' && sortedRanks[4] === 'A') {
-      return 'Royal Flush';
+    if (ranks[0] === '10' && ranks[4] === 'A') {
+      name = 'Royal Flush';
     }
-    return 'Straight Flush';
-  } else if (Object.values(ranksCount).includes(4)) {
-    return 'Four-Of-A-Kind';
-  } else if (Object.values(ranksCount).includes(3) && Object.values(ranksCount).includes(2)) {
-    return 'Full House';
+    name = 'Straight Flush';
+  } else if (Object.values(rankCount).includes(4)) {
+    name = 'Four-Of-A-Kind';
+  } else if (Object.values(rankCount).includes(3) && Object.values(rankCount).includes(2)) {
+    name = 'Full House';
   } else if (isFlush) {
-    return 'Flush';
+    name = 'Flush';
   } else if (isStraight) {
-    return 'Straight';
-  } else if (Object.values(ranksCount).includes(3)) {
-    return 'Three-Of-A-Kind';
-  } else if (Object.values(ranksCount).filter(count => count === 2).length === 2) {
-    return 'Two Pair';
-  } else if (Object.values(ranksCount).filter(count => count === 2).length === 1) {
-    return 'One Pair';
-  } else {
-    return 'High Card';
+    name = 'Straight';
+  } else if (Object.values(rankCount).includes(3)) {
+    name = 'Three-Of-A-Kind';
+  } else if (Object.values(rankCount).filter(count => count === 2).length === 2) {
+    name = 'Two Pair';
+  } else if (Object.values(rankCount).filter(count => count === 2).length === 1) {
+    name = 'One Pair';
   }
+  return [name, sortedHand, rankCount];
 }
 
-
-
-// Define the function to handle the "fold" action
-function handleFold() {
-  let response = confirm('Do you have the best hand?');
-  console.log('response', response);
-  if (response) {
-    alert('BET!');
-  } else {
-    alert('FOLD!');
-  }
-}
-
-// Define the function to handle the "call" action
-function handleCall() {
-  let response = confirm('Do you think your hand is good enough to stick around to see what happens?');
-  console.log('response', response);
-  if (response) {
-    alert('CALL!');
-  } else {
-    alert('FOLD!');
-  }
-}
-
-// Define the function to handle the "raise" action
-function handleRaise() {
-  let response = confirm('Are you nearly certain that you have the best hand?');
-  console.log('response', response);
-  if (response) {
-    alert('RAISE!');
-  } else {
-    alert('Slow down and see what the other guy does first.');
-  }
-}
-
-// Define the function to handle the "all-in" action
-function handleAllIn() {
-  let response = confirm('Are you 100% positive that you have the best hand?');
-  console.log('response', response);
-  if (response) {
-    alert('ALL IN!');
-  } else {
-    alert('Be very careful.');
-  }
-}
 
 // Shuffle function
 function shuffle(array) {
   let currentIndex = array.length, temporaryValue, randomIndex;
 
-  // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-    // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
 
-    // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
@@ -401,24 +278,4 @@ function shuffle(array) {
 
   return array;
 }
-
-function calculateTotalValue(hand, handName) {
-  let totalValue = 0;
-
-  // Calculate the value of each card in the hand and add it to the total
-  for (const card of hand) {
-    totalValue += getCardValue(card);
-  }
-
-  // Add the value of the hand itself to the total
-  totalValue += getHandValue(handName);
-
-  return totalValue;
-}
-
-const hand = ['AC', '4S', '5S', '8C', 'AH'];
-const handName = 'High Card';
-
-const totalValue = calculateTotalValue(hand, handName);
-console.log('Total value:', totalValue);
 
