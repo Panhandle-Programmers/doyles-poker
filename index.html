@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title of the Document</title>
+    <title>Doyle's Poker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -38,46 +38,48 @@
     </section>
 </div>
 
-    <!-- Shuffle Button -->
+<br>
+<!-- Shuffle Button Container -->
+<div id="shuffleContainer">
+    <button class="shuffleButton" onclick="dealCards()" id="shuffleButton">
+        <span class="shuffleText">SHUFFLE UP AND DEAL!</span>
+    </button>
+</div>
+
+
+<!-- What do you do now? -->
+<div class="prompt">
+<section>
+    <b><p id="instruction">What do you do now? Choose from the below options.</p></b>
     <br>
-    <div class="shuffle">
-    <section>
-        <button onclick="dealCards()" id="shuffleButton">SHUFFLE UP AND DEAL!</button>
-    </section>
+    <br>
+</section>
+</div>
+
+<div class="userCards"></div>   
+<p id="handName"></p>
+
+<div class="actionButtons">
+    <ul class="actionButtons">
+        <li><button id="fold" onclick="handleFold()">FOLD</button></li>
+        <li><button id="check" onclick="handleCall()">CHECK</button></li>
+        <li><button id="call" onclick="handleCall()">CALL</button></li>
+        <li><button id="bet" onclick="handleCall()">BET</button></li>
+        <li><button id="raise" onclick="handleRaise()">RAISE</button></li>
+        <li><button id="all-in" onclick="handleAllIn()">ALL IN</button></li>
+    </ul>
+    <br>
+    <br>
+    <div class="divider2">
+        <section>
+            <p><b>Know when to walk away. Know when to run.</b></p>
+        </section>
     </div>
+</div>
 
-    <!-- What do you do now? -->
-    <div class="prompt">
-    <section>
-        <b><p id="instruction">What do you do now? Choose from the below options.</p></b>
-        <br>
-        <br>
-    </div>
+<footer>&copy;2024 Panhandle Programmers</footer>
 
-    <div class="userCards"></div>   
-    <p id="handName"></p>
-
-
-    <div class="actionButtons">
-        <ul>
-            <li><a href="#" id="fold" onclick="handleFold()">FOLD</a></li>
-            <li><a href="#" id="check" onclick="handleCall()">CHECK</a></li>
-            <li><a href="#" id="call" onclick="handleCall()">CALL</a></li>
-            <li><a href="#" id="bet" onclick="handleCall()">BET</a></li>
-            <li><a href="#" id="raise" onclick="handleRaise()">RAISE</a></li>
-            <li><a href="#" id="all-in" onclick="handleAllIn()">ALL IN</a></li>
-        </ul>
-        <br>
-        <br>
-        <div class="divider2">
-            <section>
-                <p><b>Know when to walk away. Know when to run.</b></p>
-            </section>
-        </div>
-    </section>
-    </div>
-    <footer>&copy;2024 Panhandle Programmers</footer>
-    <script src="./app.js"></script>
-    <script src="./poker-hand.js"></script>
+<script src="./app.js"></script>
+<script src="./poker-hand.js"></script>
 </body>
 </html>
