@@ -249,3 +249,32 @@ nav a:hover {
 .actionButtons button:hover {
     transform: scale(1.15); /* Slightly zoom in on hover */
 }
+
+
+.aboutHeader {
+
+    text-align: center;
+}
+.doyleSection{
+    font-size: 20px;
+    color: black;
+    text-align: center;
+}
+
+.historySection{
+    text-align: center;
+    font-size: 40px;
+    color: blue;
+}
+
+.teamMembers{
+
+    color: black;
+    font-weight:bold
+
+}
+
+.programmerName{
+font-weight: lighter;
+    color: black;
+}
